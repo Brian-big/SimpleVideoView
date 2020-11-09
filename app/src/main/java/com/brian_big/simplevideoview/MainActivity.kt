@@ -5,20 +5,24 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.webkit.URLUtil
 import android.widget.MediaController
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.VideoView
 
 class MainActivity : AppCompatActivity() {
-    private val VIDEO_SAMPLE: String = "tacoma_narrows"
+    private val VIDEO_SAMPLE: String = "https://developers.google.com/training/images/tacoma_narrows.mp4"
     private val PLAYBACK_TIME: String = "play_time"
     private var currentPosition: Int = 0
     lateinit var videoView: VideoView
+    lateinit var textView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         videoView = findViewById(R.id.videoview)
+        textView = findViewById(R.id.buffering_textview)
         if (savedInstanceState != null) {
             currentPosition = savedInstanceState.getInt(PLAYBACK_TIME)
         }
@@ -48,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(PLAYBACK_TIME, videoView.currentPosition)
     }
     private fun getMedia(mediaName: String): Uri {
+        if (URLUtil.isValidUrl(mediaName))
+            return Uri.parse(mediaName)
         return Uri.parse("android.resource://" + packageName +
                 "/raw/" + mediaName)
     }
