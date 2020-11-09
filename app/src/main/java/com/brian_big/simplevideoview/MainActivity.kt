@@ -4,16 +4,20 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.MediaController
 import android.widget.VideoView
 
 class MainActivity : AppCompatActivity() {
-    val VIDEO_SAMPLE: String = "tacoma_narrows"
+    private val VIDEO_SAMPLE: String = "tacoma_narrows"
     lateinit var videoView: VideoView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         videoView = findViewById(R.id.videoview)
+        val controller = MediaController(this)
+        controller.setMediaPlayer(videoView)
+        videoView.setMediaController(controller)
     }
 
     override fun onStart() {
