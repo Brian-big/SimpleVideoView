@@ -58,13 +58,17 @@ class MainActivity : AppCompatActivity() {
                 "/raw/" + mediaName)
     }
     private fun initializePlayer(){
+        textView.visibility = VideoView.VISIBLE
         val uri = getMedia(VIDEO_SAMPLE)
         videoView.setVideoURI(uri)
-        if (currentPosition > 0)
-            videoView.seekTo(currentPosition)
-        else videoView.seekTo(1)
-        videoView.start()
 
+        videoView.setOnPreparedListener {
+            textView.visibility = VideoView.INVISIBLE
+            if (currentPosition > 0)
+                videoView.seekTo(currentPosition)
+            else videoView.seekTo(1)
+            videoView.start()
+        }
         videoView.setOnCompletionListener {
             Toast.makeText(this, "Playback Completed", Toast.LENGTH_SHORT).show()
             videoView.seekTo(1)
