@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.MediaController
+import android.widget.Toast
 import android.widget.VideoView
 
 class MainActivity : AppCompatActivity() {
@@ -57,6 +58,11 @@ class MainActivity : AppCompatActivity() {
             videoView.seekTo(currentPosition)
         else videoView.seekTo(1)
         videoView.start()
+
+        videoView.setOnCompletionListener {
+            Toast.makeText(this, "Playback Completed", Toast.LENGTH_SHORT).show()
+            videoView.seekTo(1)
+        }
     }
     private fun releasePlayer(){
         videoView.stopPlayback()
